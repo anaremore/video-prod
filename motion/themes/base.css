@@ -1,0 +1,53 @@
+/* Shared structure for every template. Themes (themes/<name>.css) only set the variables below and
+   restyle these hf-* building blocks; templates never hard-code a look. Defaults = the "glass" theme,
+   so a template still renders sensibly when previewed without a theme. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: transparent; }
+
+#root {
+  /* palette — graphics.py injects the theme's colors (brand.json colors override) */
+  --accent: #22d3ee; --accent2: #8b5cf6; --bg: #05070d; --panel: #0d1117; --ink: #f5f7fa; --muted: #9aa4b2;
+  /* type */
+  --font-display: "Inter", sans-serif; --font-body: "Inter", sans-serif; --font-label: "Inter", sans-serif;
+  --display-weight: 800; --display-transform: none; --display-tracking: -0.02em; --display-leading: 1.04; --display-scale: 1;
+  --label-weight: 700; --label-tracking: 0.16em; --label-scale: 1;
+  /* shape */
+  --radius: 18px; --radius-sm: 12px; --bar-width: 10px; --stroke: 5px;
+  --panel-bg: var(--panel); --panel-text: var(--ink); --panel-muted: var(--muted);
+  --panel-border: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  --panel-shadow: 0 0 32px color-mix(in srgb, var(--accent) 35%, transparent), 0 18px 50px rgba(0,0,0,0.45);
+  --pill-bg: transparent; --pill-text: var(--accent); --pill-border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  --stage-bg: var(--bg); --stage-text: var(--ink); --stage-muted: var(--muted);
+  --label-color: var(--accent);
+  /* motion (read by fx.js) */
+  --ease: power3.out; --ease-in: power2.in; --ease-pop: back.out(1.8); --dur: 0.5; --stagger: 0.07; --enter: 120; --drift: 1;
+
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+  font-family: var(--font-body); color: var(--ink);
+}
+.clip { position: absolute; inset: 0; }
+
+.hf-panel { background: var(--panel-bg); color: var(--panel-text); border: var(--panel-border);
+            border-radius: var(--radius); box-shadow: var(--panel-shadow); }
+.hf-display { font-family: var(--font-display); font-weight: var(--display-weight); text-transform: var(--display-transform);
+              letter-spacing: var(--display-tracking); line-height: var(--display-leading); }
+.hf-body { font-family: var(--font-body); }
+.hf-label { font-family: var(--font-label); font-weight: var(--label-weight); letter-spacing: var(--label-tracking);
+            text-transform: uppercase; color: var(--label-color); }
+.hf-muted { color: var(--panel-muted); }
+.hf-pill { display: inline-block; padding: 10px 20px; border-radius: 999px; background: var(--pill-bg);
+           color: var(--pill-text); border: var(--pill-border); }
+.hf-bar { background: var(--accent); }
+
+/* full-screen backdrop with three decoration layers each theme styles its own way */
+.hf-stage { position: absolute; inset: 0; background: var(--stage-bg); color: var(--stage-text); overflow: hidden; }
+.hf-deco { position: absolute; pointer-events: none; }
+.hf-deco-grid { inset: -80px;
+  background-image: linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 80px 80px; }
+.hf-deco-a { width: 1100px; height: 1100px; left: -380px; top: -520px; border-radius: 50%;
+             background: var(--accent2); filter: blur(120px); opacity: 0.38; }
+.hf-deco-b { width: 1100px; height: 1100px; right: -420px; bottom: -560px; border-radius: 50%;
+             background: var(--accent); filter: blur(120px); opacity: 0.22; }
+.w { display: inline-block; margin-right: 0.22em; }

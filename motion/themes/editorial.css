@@ -1,0 +1,15 @@
+/* editorial — cream paper, serif headlines, thin rules, slow elegant motion. Magazine / documentary. */
+#root {
+  --drift: 0.3;
+  --font-display: "Fraunces", Georgia, serif; --display-weight: 800; --display-tracking: -0.015em; --display-leading: 1.0;
+  --label-weight: 600; --label-tracking: 0.24em;
+  --radius: 2px; --radius-sm: 2px; --bar-width: 3px; --stroke: 3px;
+  --panel-bg: var(--panel); --panel-border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  --panel-shadow: 0 12px 34px rgba(40, 30, 10, 0.16);
+  --pill-bg: transparent; --pill-text: var(--accent); --pill-border: 0;
+  --ease: power2.out; --ease-in: power1.in; --ease-pop: power2.out; --dur: 0.85; --stagger: 0.1; --enter: 40;
+}
+.hf-pill { padding: 0 0 6px 0; border-radius: 0; border-bottom: 2px solid var(--accent); }
+.hf-deco-grid { background-image: repeating-linear-gradient(0deg, rgba(60, 40, 10, 0.035) 0 1px, transparent 1px 7px); }
+.hf-deco-a { border-radius: 0; filter: none; opacity: 0.25; width: 2200px; height: 2px; left: -100px; top: 118px; background: var(--ink); }
+.hf-deco-b { border-radius: 0; filter: none; opacity: 0.25; width: 2200px; height: 2px; left: -100px; bottom: 118px; right: auto; top: auto; background: var(--ink); }

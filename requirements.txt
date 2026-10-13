@@ -1,0 +1,9 @@
+# Python 3.12. Install PyTorch first (setup.ps1 does it): the CUDA build from
+# https://download.pytorch.org/whl/cu130 (or cu128 for older drivers), or the CPU build.
+nemo_toolkit[asr]>=3.0,<4   # Parakeet transcription
+numpy
+pillow                      # camera bubble masks, contact sheets
+fonttools                   # converts the brand fonts to TTF for captions
+brotli                      #   (woff2 support for fonttools)
+obsws-python>=1.7           # OBS control (setup_obs, record)
+pynput                      # click logging while recording

@@ -1,0 +1,17 @@
+/* bold — black & white, heavy condensed caps, square blocks with hard offset shadows, snappy motion.
+   Punchy product, sports and tech channels. */
+#root {
+  --drift: 0;
+  --font-display: "Anton", "Impact", sans-serif; --display-weight: 400; --display-transform: uppercase;
+  --display-tracking: 0.01em; --display-leading: 0.96; --display-scale: 1.18;
+  --font-label: "Inter", sans-serif; --label-weight: 800; --label-tracking: 0.22em;
+  --radius: 0px; --radius-sm: 0px; --bar-width: 16px; --stroke: 7px;
+  --panel-bg: var(--panel); --panel-border: 0; --panel-shadow: 10px 10px 0 var(--accent);
+  --pill-bg: var(--accent); --pill-text: var(--bg); --pill-border: 0;
+  --ease: power4.out; --ease-in: power3.in; --ease-pop: power4.out; --dur: 0.35; --stagger: 0.05; --enter: 240;
+}
+.hf-pill { border-radius: 0; }
+.hf-deco-grid { background-image: repeating-linear-gradient(-45deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 24px); }
+.hf-deco-a { border-radius: 0; filter: none; opacity: 1; width: 34px; height: 1500px; left: 96px; top: -200px; background: var(--accent); }
+.hf-deco-b { border-radius: 0; filter: none; opacity: 0.08; width: 900px; height: 900px; right: -200px; bottom: -300px;
+             background: repeating-linear-gradient(45deg, var(--ink) 0 6px, transparent 6px 26px); }

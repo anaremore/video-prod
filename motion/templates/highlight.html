@@ -1,0 +1,95 @@
+<!doctype html>
+<!-- highlight — transparent overlay. Draws a box / circle / underline around something on screen, with an
+     optional label and an optional spotlight that dims everything else.
+     Props: x, y, w, h (pixels in the FINAL 1920x1080 frame — pick them from a `snapshots --from base` frame),
+            shape (box|circle|underline), label, dim (true = spotlight). -->
+<html lang="en" data-composition-variables='[
+  {"id":"x","type":"number","label":"X","default":760},
+  {"id":"y","type":"number","label":"Y","default":420},
+  {"id":"w","type":"number","label":"Width","default":400},
+  {"id":"h","type":"number","label":"Height","default":120},
+  {"id":"shape","type":"enum","label":"Shape","default":"box","options":["box","circle","underline"]},
+  {"id":"label","type":"string","label":"Label","default":"Click here"},
+  {"id":"dim","type":"boolean","label":"Spotlight","default":false},
+  {"id":"c_accent","type":"color","label":"Accent","default":"#22d3ee"},
+  {"id":"c_accent2","type":"color","label":"Accent 2","default":"#8b5cf6"},
+  {"id":"c_bg","type":"color","label":"Background","default":"#05070d"},
+  {"id":"c_panel","type":"color","label":"Panel","default":"#0d1117"},
+  {"id":"c_text","type":"color","label":"Text","default":"#f5f7fa"},
+  {"id":"c_muted","type":"color","label":"Muted","default":"#9aa4b2"}]'>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../themes/base.css" />
+  <style>
+    svg { position: absolute; left: 0; top: 0; }
+    .stroke { fill: none; stroke: var(--accent); stroke-width: var(--stroke); stroke-linecap: round; stroke-linejoin: round;
+              filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 55%, transparent)); }
+    .label { position: absolute; font-size: calc(26px * var(--label-scale)); white-space: nowrap;
+             background: var(--accent); color: var(--bg); border: 0; }
+  </style>
+  <!--THEME-->
+  <script src="../vendor/gsap.min.js"></script>
+  <script src="../themes/fx.js"></script>
+</head>
+<body>
+  <div id="root" data-composition-id="highlight" data-start="0" data-duration="3" data-fill-duration
+       data-width="1920" data-height="1080">
+    <div id="h-clip" class="clip" data-start="0" data-duration="3" data-fill-duration data-track-index="0">
+      <svg id="svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+        <defs><mask id="hole"><rect width="1920" height="1080" fill="white" /><g id="holeShape"></g></mask></defs>
+        <rect id="dim" width="1920" height="1080" fill="#000" fill-opacity="0.55" mask="url(#hole)" opacity="0" />
+        <g id="shapes"></g>
+      </svg>
+      <div id="label" class="label hf-pill hf-label">Click here</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const { root, v, dur, M } = HF.setup();
+      const NS = "http://www.w3.org/2000/svg";
+      const pad = 14;
+      const x = Number(v.x) - pad, y = Number(v.y) - pad, w = Number(v.w) + 2 * pad, h = Number(v.h) + 2 * pad;
+      const rx = parseFloat(getComputedStyle(root).getPropertyValue("--radius-sm")) || 0;
+      const mk = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+      let shape, hole, len;
+      if (v.shape === "circle") {
+        const a = w / 2 + 10, b = h / 2 + 10, cx = x + w / 2, cy = y + h / 2;
+        shape = mk("ellipse", { cx, cy, rx: a, ry: b, class: "stroke" });
+        hole = mk("ellipse", { cx, cy, rx: a, ry: b, fill: "black" });
+        len = Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
+      } else if (v.shape === "underline") {
+        shape = mk("line", { x1: x, y1: y + h, x2: x + w, y2: y + h, class: "stroke" });
+        hole = mk("rect", { x, y, width: w, height: h, rx, fill: "black" });
+        len = w;
+      } else {
+        shape = mk("rect", { x, y, width: w, height: h, rx, class: "stroke" });
+        hole = mk("rect", { x, y, width: w, height: h, rx, fill: "black" });
+        len = 2 * (w + h);
+      }
+      document.getElementById("shapes").appendChild(shape);
+      document.getElementById("holeShape").appendChild(hole);
+      shape.style.strokeDasharray = len;
+
+      const label = document.getElementById("label");
+      const hasLabel = HF.text("label", v.label);
+      if (hasLabel) {
+        const above = y > 110;
+        label.style.left = Math.min(Math.max(x, 40), 1600) + "px";
+        label.style.top = (above ? y - 70 : y + h + 18) + "px";
+      }
+      const out = Math.max(dur - 0.35, 0.9);
+      const tl = gsap.timeline({ paused: true });
+      if (v.dim === true || v.dim === "true") {
+        tl.fromTo("#dim", { opacity: 0 }, { opacity: 1, duration: M.dur * 0.8, ease: "power1.out" }, 0);
+        tl.to("#dim", { opacity: 0, duration: 0.3, ease: "power1.in" }, out);
+      }
+      tl.fromTo(shape, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: M.dur * 1.3, ease: M.ease }, 0.1);
+      if (hasLabel) tl.fromTo("#label", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: M.dur * 0.8, ease: M.pop }, 0.35);
+      tl.to([shape, "#label"], { opacity: 0, duration: 0.3, ease: M.easeIn }, out);
+      window.__timelines["highlight"] = tl;
+    })();
+  </script>
+</body>
+</html>

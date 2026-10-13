@@ -1,0 +1,39 @@
+# --- Personal: never commit ---------------------------------------------------
+# recordings, edits, transcripts
+videos/
+# per-machine state: OBS state + scene-collection backups
+local/
+# your settings (devices, names, colors) — start from brand.example.json
+brand/brand.json
+# your own / client brand themes
+motion/themes/themes.local.json
+# your machine notes for Claude
+CLAUDE.local.md
+*.clicks.json
+
+# --- Generated: rebuilt by setup.ps1 / yte doctor / yte graphics -----------------
+motion/node_modules/
+motion/build/
+# theme sheets are rendered on a real frame of your newest video
+motion/gallery/
+# per-video images copied in for graphics
+motion/assets/
+# gsap.min.js and the .woff2 fonts are copied out of node_modules by doctor
+motion/vendor/
+motion/fonts/*.woff2
+# TTF copies for captions, converted by doctor
+motion/fonts/ttf/
+# synthesized by make_sfx (doctor runs it)
+assets/sfx/*.wav
+# bring your own music (see the README in there)
+assets/music/*
+!assets/music/README.md
+
+# --- Tooling ------------------------------------------------------------------
+.venv/
+__pycache__/
+*.pyc
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
+desktop.ini

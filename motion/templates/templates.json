@@ -1,0 +1,49 @@
+{
+  "_about": "Registry of HyperFrames templates used by the youtube-edit skill. Every template takes the active theme (motion/themes, chosen by brand.json/plan.json \"style\"), so these describe content, not looks. 'fullscreen' graphics cover the whole frame; 'hide_captions' also hides captions under them; 'zone' tells captions.py where an overlay sits so captions can move out of its way. Brand/theme colors are injected automatically; 'props' are the per-use variables.",
+  "lower-third": {
+    "file": "lower-third.html", "fullscreen": false, "zone": "bottom-left", "default_duration": 4.5,
+    "use": "Introduce yourself, a guest or a product the first time they appear. Once or twice per video.",
+    "props": { "title": "main line (a name or product)", "subtitle": "optional second line" }
+  },
+  "callout": {
+    "file": "callout.html", "fullscreen": false, "zone": "top", "default_duration": 3.0,
+    "use": "Reinforce a key term, number or tip the moment it's spoken. Keep text under ~5 words.",
+    "props": { "text": "the punchline", "label": "optional small eyebrow, e.g. 'Tip' or 'Free'", "position": "top-left | top-right | top-center | center | bottom-center" }
+  },
+  "highlight": {
+    "file": "highlight.html", "fullscreen": false, "zone": "custom", "default_duration": 2.5,
+    "use": "Point at something on screen as it's mentioned or clicked: a button, a field, a price. Draws a box/circle/underline; dim=true spotlights it.",
+    "props": { "x": "left edge in the FINAL 1920x1080 frame (read it off a `snapshots --from base` frame)", "y": "top edge", "w": "width", "h": "height",
+               "shape": "box | circle | underline", "label": "optional short label next to it", "dim": "true to darken everything else" }
+  },
+  "steps": {
+    "file": "steps.html", "fullscreen": false, "zone": "top", "default_duration": 3.5,
+    "use": "Show where we are in a multi-step process (checkout, setup, a tutorial's parts). Re-use with a higher 'current' as the video moves on.",
+    "props": { "steps": "\"Cart, Checkout, Transfer, Done\" (or a JSON array)", "current": "0-based index of the step happening now", "position": "top | bottom" }
+  },
+  "kinetic": {
+    "file": "kinetic.html", "fullscreen": false, "hide_captions": true, "zone": "center", "default_duration": 2.5,
+    "use": "A hook or punchline in big words that pop in one by one. 2-6 words.",
+    "props": { "text": "the words", "emphasis": "comma-separated words to color with the accent", "backdrop": "true (themed background, default) or false (words over the video)" }
+  },
+  "title-card": {
+    "file": "title-card.html", "fullscreen": true, "default_duration": 3.0,
+    "use": "Chapter / section openers and the hook title. Voice keeps playing underneath.",
+    "props": { "kicker": "optional small pill, e.g. 'Step 2'", "title": "2-5 words", "subtitle": "optional one-liner" }
+  },
+  "tool-cards": {
+    "file": "tool-cards.html", "fullscreen": true, "default_duration": 6.0,
+    "use": "Overview of a stack, steps or options (2-8 items). Use highlight to point at the one being discussed.",
+    "props": { "heading": "optional", "items": "JSON string: [{\"role\":\"The editor\",\"name\":\"Claude Code\",\"icon\":\"optional image path\"}]", "highlight": "-1 to step through all, or the 0-based index to spotlight" }
+  },
+  "browser-frame": {
+    "file": "browser-frame.html", "fullscreen": true, "default_duration": 5.0,
+    "use": "Show a website/screenshot captured in the research step. Tall pages scroll slowly.",
+    "props": { "image": "path to the screenshot (videos/<slug>/research/...)", "url": "address shown in the bar", "caption": "optional headline above the window" }
+  },
+  "end-card": {
+    "file": "end-card.html", "fullscreen": true, "default_duration": 5.0,
+    "use": "The closing call to action: subscribe, visit the site, book a call.",
+    "props": { "title": "e.g. 'Thanks for watching'", "subtitle": "optional", "cta": "button text, e.g. 'Subscribe' or 'Shop now'", "url": "optional site / handle" }
+  }
+}

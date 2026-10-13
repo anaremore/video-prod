@@ -1,0 +1,19 @@
+/* neon — black, glowing magenta/cyan outlines, mono labels, springy motion. Tech / gaming. */
+#root {
+  --font-display: "Space Grotesk", sans-serif; --display-weight: 700; --display-tracking: -0.02em;
+  --font-label: "JetBrains Mono", monospace; --label-weight: 700; --label-tracking: 0.06em;
+  --radius: 6px; --radius-sm: 4px; --bar-width: 4px; --stroke: 4px;
+  --panel-bg: color-mix(in srgb, var(--panel) 90%, transparent); --panel-border: 2px solid var(--accent);
+  --panel-shadow: 0 0 22px color-mix(in srgb, var(--accent) 75%, transparent), inset 0 0 22px color-mix(in srgb, var(--accent) 22%, transparent);
+  --pill-bg: transparent; --pill-text: var(--accent2); --pill-border: 2px solid var(--accent2);
+  --label-color: var(--accent2);
+  --ease: expo.out; --ease-pop: elastic.out(1, 0.55); --dur: 0.55; --stagger: 0.04; --enter: 90;
+}
+.hf-display { text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 65%, transparent); }
+.hf-deco-grid { background-image: linear-gradient(color-mix(in srgb, var(--accent) 24%, transparent) 1px, transparent 1px),
+                                  linear-gradient(90deg, color-mix(in srgb, var(--accent2) 18%, transparent) 1px, transparent 1px);
+                background-size: 64px 64px; }
+.hf-deco-a { background: var(--accent); opacity: 0.30; }
+.hf-deco-b { background: var(--accent2); opacity: 0.25; }
+.hf-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+                   background: repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 2px, transparent 2px 4px); }

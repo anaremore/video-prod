@@ -1,0 +1,103 @@
+<!doctype html>
+<!-- tool-cards — full-screen, opaque. A grid of numbered cards (role + name) that build in, then highlight
+     one card (highlight = index) or step through them all (highlight = -1).
+     Props: heading (optional), items (JSON string: [{"role","name","icon"?}]), highlight. -->
+<html lang="en" data-composition-variables='[
+  {"id":"heading","type":"string","label":"Heading","default":""},
+  {"id":"items","type":"string","label":"Items (JSON)","default":"[{\"role\":\"The editor\",\"name\":\"Claude Code\"},{\"role\":\"The transcriber\",\"name\":\"Parakeet\"},{\"role\":\"The animator\",\"name\":\"HyperFrames\"},{\"role\":\"The finisher\",\"name\":\"FFmpeg\"}]"},
+  {"id":"highlight","type":"number","label":"Highlight index (-1 = step through)","default":-1},
+  {"id":"c_accent","type":"color","label":"Accent","default":"#22d3ee"},
+  {"id":"c_accent2","type":"color","label":"Accent 2","default":"#8b5cf6"},
+  {"id":"c_bg","type":"color","label":"Background","default":"#05070d"},
+  {"id":"c_panel","type":"color","label":"Panel","default":"#0d1117"},
+  {"id":"c_text","type":"color","label":"Text","default":"#f5f7fa"},
+  {"id":"c_muted","type":"color","label":"Muted","default":"#9aa4b2"}]'>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../themes/base.css" />
+  <style>
+    .wrap { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 56px; padding: 0 80px; }
+    .heading { font-size: calc(72px * var(--display-scale)); color: var(--stage-text); }
+    .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 36px; }
+    .card { position: relative; padding: 26px 28px 30px; }
+    .card .hl { position: absolute; inset: -2px; border-radius: var(--radius); opacity: 0; pointer-events: none;
+                box-shadow: 0 0 0 var(--stroke) var(--accent), 0 0 36px color-mix(in srgb, var(--accent) 55%, transparent); }
+    .num { font-size: calc(26px * var(--label-scale)); }
+    .role { margin-top: 8px; font-size: calc(44px * var(--display-scale)); min-height: 96px; }
+    .tool { margin-top: 22px; display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: var(--radius-sm);
+            background: color-mix(in srgb, var(--panel-text) 6%, transparent); }
+    .badge { width: 52px; height: 52px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
+             font-family: var(--font-display); font-size: 28px; color: var(--bg); background: var(--accent); flex: none; }
+    .badge img { width: 52px; height: 52px; object-fit: contain; }
+    .badge.has-img { background: transparent; }
+    .name { font-weight: 700; font-size: 32px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
+  <!--THEME-->
+  <script src="../vendor/gsap.min.js"></script>
+  <script src="../themes/fx.js"></script>
+</head>
+<body>
+  <div id="root" data-composition-id="tool-cards" data-start="0" data-duration="6" data-fill-duration
+       data-width="1920" data-height="1080">
+    <div id="tc-clip" class="clip" data-start="0" data-duration="6" data-fill-duration data-track-index="0">
+      <div id="stage" class="hf-stage">
+        <div class="hf-deco hf-deco-grid"></div><div class="hf-deco hf-deco-a"></div><div class="hf-deco hf-deco-b"></div>
+        <div class="wrap">
+          <div id="heading" class="heading hf-display"></div>
+          <div id="cards" class="cards"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const { v, dur, M } = HF.setup();
+      const hasHeading = HF.text("heading", v.heading);
+      let items = [];
+      try { items = JSON.parse(v.items); } catch (e) { items = []; }
+      const cards = document.getElementById("cards");
+      // Up to 4 cards on one row, 5-8 on two rows; size cards so each row fits the 1760px content width.
+      const perRow = items.length <= 4 ? Math.max(items.length, 1) : Math.ceil(items.length / 2);
+      const width = Math.min(480, Math.floor((1760 - (perRow - 1) * 36) / perRow));
+      cards.style.maxWidth = (perRow * width + (perRow - 1) * 36) + "px";
+      items.forEach((it, i) => {
+        const card = document.createElement("div");
+        card.className = "card hf-panel"; card.style.width = width + "px";
+        const badge = it.icon ? `<div class="badge has-img"><img src="${it.icon}" alt=""></div>`
+                              : `<div class="badge">${(it.name || "?").trim().charAt(0).toUpperCase()}</div>`;
+        card.innerHTML = `<div class="hl"></div><div class="num hf-label">${String(i + 1).padStart(2, "0")}</div>
+          <div class="role hf-display"></div><div class="tool">${badge}<div class="name hf-body"></div></div>`;
+        card.querySelector(".role").textContent = it.role || "";
+        card.querySelector(".name").textContent = it.name || "";
+        cards.appendChild(card);
+      });
+
+      const out = Math.max(dur - 0.5, 1.5);
+      const cardEls = [...document.querySelectorAll(".card")];
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#stage", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+      HF.drift(tl, dur);
+      if (hasHeading) tl.fromTo("#heading", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: M.dur, ease: M.ease }, 0.1);
+      tl.fromTo(cardEls, { y: M.enter * 0.4, opacity: 0 }, { y: 0, opacity: 1, duration: M.dur, ease: M.ease, stagger: M.stagger + 0.02 }, 0.2);
+      const built = 0.2 + M.dur + (M.stagger + 0.02) * Math.max(cardEls.length - 1, 0);
+      const hl = cardEls.map(c => c.querySelector(".hl"));
+      const hi = Number(v.highlight);
+      if (hl.length && hi >= 0 && hi < hl.length) {
+        tl.fromTo(hl[hi], { opacity: 0 }, { opacity: 1, duration: 0.4, ease: M.ease }, built + 0.1);
+        tl.to(cardEls.filter((_, i) => i !== hi), { opacity: 0.45, duration: 0.4 }, built + 0.1);
+      } else if (hl.length) {
+        const step = Math.max((out - built - 0.2) / hl.length, 0.25);
+        hl.forEach((h, i) => {
+          const t = built + 0.1 + i * step;
+          tl.fromTo(h, { opacity: 0 }, { opacity: 1, duration: Math.min(0.3, step / 2), ease: M.ease }, t);
+          if (i < hl.length - 1) tl.to(h, { opacity: 0, duration: Math.min(0.3, step / 2), ease: M.easeIn }, t + step);
+        });
+      }
+      tl.to("#stage", { opacity: 0, duration: 0.45, ease: "power1.in" }, out);
+      window.__timelines["tool-cards"] = tl;
+    })();
+  </script>
+</body>
+</html>

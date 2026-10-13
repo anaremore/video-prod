@@ -1,0 +1,10 @@
+/* glass — dark translucent cards, accent glow, rounded, smooth motion (the original look). */
+#root {
+  --font-display: "Inter", sans-serif; --display-weight: 800; --display-tracking: -0.02em;
+  --radius: 18px; --radius-sm: 12px; --bar-width: 10px; --stroke: 5px;
+  --panel-bg: color-mix(in srgb, var(--panel) 94%, transparent);
+  --panel-border: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  --panel-shadow: 0 0 32px color-mix(in srgb, var(--accent) 35%, transparent), 0 18px 50px rgba(0,0,0,0.45);
+  --pill-bg: transparent; --pill-text: var(--accent); --pill-border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  --ease: power3.out; --ease-pop: back.out(1.8); --dur: 0.5; --stagger: 0.07; --enter: 120;
+}

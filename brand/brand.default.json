@@ -1,0 +1,65 @@
+{
+  "_about": "Shipped defaults. Don't edit this file for your own setup — put overrides in brand/brand.json (gitignored; see brand.example.json). The two are deep-merged, yours wins.",
+
+  "channel": "Your Channel",
+  "creator": "Your Name",
+  "creator_title": "Your tagline here",
+
+  "style": "glass",
+
+  "colors": {
+    "_note": "Empty = the theme's palette (motion/themes/themes.json). Add accent / accent2 / bg / panel / text / muted to override, e.g. your brand color."
+  },
+
+  "captions": {
+    "_note": "The look comes from the theme. Override any key: font, size, uppercase, color, highlight, outline, outline_px, box, pop, max_words, max_chars, margin_v.",
+    "enabled": true
+  },
+
+  "layout": {
+    "output": [1920, 1080],
+    "cam_bubble": { "diameter": 300, "margin": 48, "ring_px": 6, "ring_color": "accent", "corner": "bottom-right" },
+    "cameras": {
+      "_note": "Framing per camera, in camera-region pixels (1920x1080). cam_crop = [x, y, w] 16:9 window for full-camera shots; bubble_crop = [x, y, size] square for the bubble. null = whole frame / centre square. Pick one per video with plan.json layout.camera; add your own presets in brand.json.",
+      "webcam": { "cam_crop": null, "bubble_crop": null }
+    },
+    "zoom_ease_s": 0.5,
+    "default_zoom": 1.4
+  },
+
+  "recording": {
+    "_note": "OBS 'ISO canvas': one recording holds the captured window on top and the camera below, so they never drift. Regions are [x, y, w, h] in the recording. screen_app/screen_size: the window to capture — lock its content area to exactly screen_size (e.g. with a window-locking tool) and setup_obs --use finds it.",
+    "obs_collection": null,
+    "screen_app": "chrome.exe",
+    "screen_size": [1920, 1080],
+    "voice_device": null,
+    "avatar_source": null,
+    "webcam_match": null,
+    "recordings_folder": "~/Videos/YouTube",
+    "iso_canvas": [1920, 2160],
+    "screen": [0, 0, 1920, 1080],
+    "cam": [0, 1080, 1920, 1080]
+  },
+
+  "audio": {
+    "target_lufs": -14,
+    "true_peak": -1.5,
+    "music_db": -20,
+    "music_duck_threshold": 0.03,
+    "music_duck_ratio": 8,
+    "sfx_db": -8,
+    "desktop_db": -6
+  },
+
+  "cuts": {
+    "_note": "style = default auto-cut style for plan_cuts (override with --style). gentle suits screen demos (few, invisible cuts); tight is vlog-style jump cuts; none = manual cuts only.",
+    "style": "gentle",
+    "styles": {
+      "gentle": { "max_gap": 1.0, "pad_before": 0.25, "pad_after": 0.35, "min_cut": 0.4, "remove_fillers": false, "keep_cursor_motion": true },
+      "tight": { "max_gap": 0.45, "pad_before": 0.10, "pad_after": 0.16, "min_cut": 0.15, "remove_fillers": true, "keep_cursor_motion": false },
+      "none": { "max_gap": 1000000, "pad_before": 0.25, "pad_after": 0.35, "min_cut": 0.4, "remove_fillers": false, "keep_cursor_motion": true }
+    },
+    "min_keep": 0.25,
+    "fillers": ["um", "uh", "uhm", "umm", "erm", "er", "ah", "hmm", "mm"]
+  }
+}

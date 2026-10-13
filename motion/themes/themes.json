@@ -1,0 +1,34 @@
+{
+  "_about": "Graphic themes. Your own brand / client themes go in themes.local.json (gitignored, same format) and can reuse a look with \"css\": e.g. {\"acme\": {\"css\": \"bold\", \"description\": \"...\", \"colors\": {...}, \"captions\": {...}}}. A theme restyles every template (themes/<name>.css: type, shapes, decorations, motion feel) and sets the default palette and caption look. Pick one in brand.json \"style\" (or per video: plan.json \"style\"). brand.json \"colors\" / \"captions\" entries override the theme's values. Caption fonts are full font names from motion/fonts/ttf.",
+
+  "glass": {
+    "description": "Dark translucent cards, accent glow, rounded corners, smooth motion. Tech tutorials.",
+    "colors": { "accent": "#22d3ee", "accent2": "#8b5cf6", "bg": "#05070d", "panel": "#0d1117", "text": "#f5f7fa", "muted": "#9aa4b2" },
+    "captions": { "font": "Inter ExtraBold", "size": 64, "uppercase": false, "color": "#ffffff", "highlight": "#22d3ee",
+                  "outline": "#000000", "outline_px": 5, "shadow_px": 2, "box": false, "pop": false }
+  },
+  "clean": {
+    "description": "Light and minimal: white cards, soft shadows, calm motion. Corporate, SaaS, explainers.",
+    "colors": { "accent": "#2563eb", "accent2": "#14b8a6", "bg": "#f6f8fb", "panel": "#ffffff", "text": "#0f172a", "muted": "#64748b" },
+    "captions": { "font": "Inter Bold", "size": 58, "uppercase": false, "color": "#0f172a", "highlight": "#2563eb",
+                  "outline": "#ffffff", "outline_px": 14, "shadow_px": 0, "box": true, "box_color": "#ffffff", "pop": false }
+  },
+  "bold": {
+    "description": "Black and white, heavy condensed capitals, square blocks with hard offset shadows, snappy cuts. Punchy product, sports and tech channels.",
+    "colors": { "accent": "#ffd60a", "accent2": "#ffffff", "bg": "#0a0a0a", "panel": "#111111", "text": "#ffffff", "muted": "#a3a3a3" },
+    "captions": { "font": "Anton Regular", "size": 76, "uppercase": true, "color": "#ffffff", "highlight": "#ffd60a",
+                  "outline": "#000000", "outline_px": 6, "shadow_px": 0, "box": false, "pop": true, "max_words": 3 }
+  },
+  "neon": {
+    "description": "Black with glowing magenta/cyan outlines, mono labels, springy motion. Tech, gaming, dev tools.",
+    "colors": { "accent": "#ff2bd6", "accent2": "#22e4ff", "bg": "#07020f", "panel": "#0b0418", "text": "#f8f5ff", "muted": "#a59bc4" },
+    "captions": { "font": "Space Grotesk Light Bold", "size": 62, "uppercase": false, "color": "#ffffff", "highlight": "#22e4ff",
+                  "outline": "#ff2bd6", "outline_px": 3, "shadow_px": 0, "glow": true, "box": false, "pop": true }
+  },
+  "editorial": {
+    "description": "Cream paper, serif headlines, thin rules, slow elegant motion. Stories, documentary, premium.",
+    "colors": { "accent": "#b23a2a", "accent2": "#1f3a5f", "bg": "#f3ede2", "panel": "#fbf8f2", "text": "#1b1712", "muted": "#6b6255" },
+    "captions": { "font": "Fraunces ExtraBold", "size": 60, "uppercase": false, "color": "#1b1712", "highlight": "#b23a2a",
+                  "outline": "#fbf8f2", "outline_px": 14, "shadow_px": 0, "box": true, "box_color": "#fbf8f2", "pop": false }
+  }
+}

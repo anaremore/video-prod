@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- kinetic — big punchy words that pop in one after another (hooks, punchlines). Over a themed backdrop by
+     default; backdrop=false puts the words straight over the video. Props: text, emphasis, backdrop. -->
+<html lang="en" data-composition-variables='[
+  {"id":"text","type":"string","label":"Text","default":"Edit videos with AI"},
+  {"id":"emphasis","type":"string","label":"Words in accent color (comma-separated)","default":"AI"},
+  {"id":"backdrop","type":"boolean","label":"Themed backdrop","default":true},
+  {"id":"c_accent","type":"color","label":"Accent","default":"#22d3ee"},
+  {"id":"c_accent2","type":"color","label":"Accent 2","default":"#8b5cf6"},
+  {"id":"c_bg","type":"color","label":"Background","default":"#05070d"},
+  {"id":"c_panel","type":"color","label":"Panel","default":"#0d1117"},
+  {"id":"c_text","type":"color","label":"Text","default":"#f5f7fa"},
+  {"id":"c_muted","type":"color","label":"Muted","default":"#9aa4b2"}]'>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../themes/base.css" />
+  <style>
+    .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 160px; }
+    .words { font-size: calc(132px * var(--display-scale)); text-align: center; max-width: 1600px; color: var(--stage-text); }
+    .words .w { margin: 0 0.12em; }
+    .words .em { color: var(--accent); }
+    .bare .words { color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,0.65), 0 0 2px rgba(0,0,0,0.9); }
+  </style>
+  <!--THEME-->
+  <script src="../vendor/gsap.min.js"></script>
+  <script src="../themes/fx.js"></script>
+</head>
+<body>
+  <div id="root" data-composition-id="kinetic" data-start="0" data-duration="3" data-fill-duration
+       data-width="1920" data-height="1080">
+    <div id="k-clip" class="clip" data-start="0" data-duration="3" data-fill-duration data-track-index="0">
+      <div id="stage" class="hf-stage">
+        <div class="hf-deco hf-deco-grid"></div><div class="hf-deco hf-deco-a"></div><div class="hf-deco hf-deco-b"></div>
+      </div>
+      <div id="center" class="center"><div id="words" class="words hf-display"></div></div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const { v, dur, M } = HF.setup();
+      const backdrop = !(v.backdrop === false || v.backdrop === "false");
+      if (!backdrop) { document.getElementById("stage").remove(); document.getElementById("center").classList.add("bare"); }
+      const em = new Set(String(v.emphasis || "").split(",").map(s => s.trim().toLowerCase()).filter(Boolean));
+      const words = HF.words(document.getElementById("words"), v.text);
+      words.forEach(w => { if (em.has(w.textContent.replace(/[^\p{L}\p{N}]/gu, "").toLowerCase())) w.classList.add("em"); });
+      const out = Math.max(dur - 0.35, 0.9);
+      const gap = Math.min(0.16, Math.max(0.06, (out - 0.6) / Math.max(words.length, 1) / 2));
+      const tl = gsap.timeline({ paused: true });
+      if (backdrop) { tl.fromTo("#stage", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0); HF.drift(tl, dur); }
+      tl.fromTo(words, { y: 50, scale: 0.6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: M.dur, ease: M.pop, stagger: gap }, 0.1);
+      tl.to(words, { y: -30, opacity: 0, duration: 0.25, ease: M.easeIn, stagger: 0.02 }, out);
+      if (backdrop) tl.to("#stage", { opacity: 0, duration: 0.3 }, out + 0.05);
+      window.__timelines["kinetic"] = tl;
+    })();
+  </script>
+</body>
+</html>

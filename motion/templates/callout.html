@@ -1,0 +1,61 @@
+<!doctype html>
+<!-- callout — transparent overlay. A short punchy pop-up (keyword, stat, tip).
+     Props: text, label (optional eyebrow), position (top-left|top-right|top-center|center|bottom-center). -->
+<html lang="en" data-composition-variables='[
+  {"id":"text","type":"string","label":"Text","default":"Word-level timestamps"},
+  {"id":"label","type":"string","label":"Label","default":"Key idea"},
+  {"id":"position","type":"enum","label":"Position","default":"top-right","options":["top-left","top-right","top-center","center","bottom-center"]},
+  {"id":"c_accent","type":"color","label":"Accent","default":"#22d3ee"},
+  {"id":"c_accent2","type":"color","label":"Accent 2","default":"#8b5cf6"},
+  {"id":"c_bg","type":"color","label":"Background","default":"#05070d"},
+  {"id":"c_panel","type":"color","label":"Panel","default":"#0d1117"},
+  {"id":"c_text","type":"color","label":"Text","default":"#f5f7fa"},
+  {"id":"c_muted","type":"color","label":"Muted","default":"#9aa4b2"}]'>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../themes/base.css" />
+  <style>
+    .anchor { position: absolute; }
+    .pos-top-left { left: 96px; top: 90px; }
+    .pos-top-right { right: 96px; top: 90px; }
+    .pos-top-center { left: 50%; top: 90px; transform: translateX(-50%); }
+    .pos-center { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .pos-bottom-center { left: 50%; bottom: 200px; transform: translateX(-50%); }
+    .card { display: flex; flex-direction: column; gap: 10px; padding: 24px 36px 26px; max-width: 980px; }
+    .label { font-size: calc(24px * var(--label-scale)); }
+    .text { font-size: calc(56px * var(--display-scale)); }
+  </style>
+  <!--THEME-->
+  <script src="../vendor/gsap.min.js"></script>
+  <script src="../themes/fx.js"></script>
+</head>
+<body>
+  <div id="root" data-composition-id="callout" data-start="0" data-duration="3" data-fill-duration
+       data-width="1920" data-height="1080">
+    <div id="c-clip" class="clip" data-start="0" data-duration="3" data-fill-duration data-track-index="0">
+      <div id="anchor" class="anchor pos-top-right">
+        <div id="card" class="card hf-panel">
+          <div id="label" class="label hf-label">Key idea</div>
+          <div id="text" class="text hf-display">Word-level timestamps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const { v, dur, M } = HF.setup();
+      document.getElementById("anchor").className = "anchor pos-" + (v.position || "top-right");
+      HF.text("text", v.text);
+      const hasLabel = HF.text("label", v.label);
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#card", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: M.dur, ease: M.pop }, 0.05);
+      if (hasLabel) tl.fromTo("#label", { x: -16, opacity: 0 }, { x: 0, opacity: 1, duration: M.dur * 0.7, ease: M.ease }, 0.2);
+      tl.fromTo("#text", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: M.dur * 0.8, ease: M.ease }, 0.25);
+      tl.to("#card", { scale: 0.85, opacity: 0, duration: 0.3, ease: M.easeIn }, Math.max(dur - 0.35, 0.9));
+      window.__timelines["callout"] = tl;
+    })();
+  </script>
+</body>
+</html>

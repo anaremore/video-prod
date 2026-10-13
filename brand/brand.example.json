@@ -1,0 +1,23 @@
+{
+  "_about": "Copy to brand/brand.json (gitignored) and keep only what you change. It's deep-merged over brand.default.json.",
+
+  "channel": "My Channel",
+  "creator": "Jane Doe",
+  "creator_title": "Builds things on camera",
+  "style": "clean",
+  "colors": { "accent": "#ff6a00" },
+
+  "recording": {
+    "obs_collection": "My Main Collection",
+    "voice_device": "Microphone (USB Audio)",
+    "avatar_source": "Avatar Camera",
+    "webcam_match": "brio",
+    "recordings_folder": "D:/Recordings/YouTube"
+  },
+
+  "layout": {
+    "cameras": {
+      "avatar": { "cam_crop": [320, 0, 1280], "bubble_crop": [640, 40, 640] }
+    }
+  }
+}

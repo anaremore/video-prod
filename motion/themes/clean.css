@@ -1,0 +1,13 @@
+/* clean — light, minimal, soft shadows, calm motion. Corporate / SaaS. */
+#root {
+  --font-display: "Inter", sans-serif; --display-weight: 700; --display-tracking: -0.035em; --display-leading: 1.06;
+  --label-weight: 600; --label-tracking: 0.12em;
+  --radius: 16px; --radius-sm: 10px; --bar-width: 6px; --stroke: 4px;
+  --panel-bg: var(--panel); --panel-border: 1px solid rgba(15, 23, 42, 0.08);
+  --panel-shadow: 0 18px 50px rgba(15, 23, 42, 0.16), 0 2px 8px rgba(15, 23, 42, 0.08);
+  --pill-bg: color-mix(in srgb, var(--accent) 12%, white); --pill-text: var(--accent); --pill-border: 0;
+  --ease: power2.out; --ease-in: power2.in; --ease-pop: back.out(1.15); --dur: 0.6; --stagger: 0.06; --enter: 60;
+}
+.hf-deco-grid { background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1.6px, transparent 1.6px); background-size: 30px 30px; }
+.hf-deco-a { background: var(--accent); opacity: 0.10; filter: blur(150px); }
+.hf-deco-b { background: var(--accent2); opacity: 0.08; filter: blur(150px); }

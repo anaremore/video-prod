@@ -1,0 +1,57 @@
+<!doctype html>
+<!-- lower-third — transparent overlay. Name/title bar that slides in bottom-left, holds, slides out.
+     Props: title, subtitle. Look comes from the theme (themes/*.css), injected at the THEME marker. -->
+<html lang="en" data-composition-variables='[
+  {"id":"title","type":"string","label":"Title","default":"Your Name"},
+  {"id":"subtitle","type":"string","label":"Subtitle","default":"Editing videos with Claude Code"},
+  {"id":"c_accent","type":"color","label":"Accent","default":"#22d3ee"},
+  {"id":"c_accent2","type":"color","label":"Accent 2","default":"#8b5cf6"},
+  {"id":"c_bg","type":"color","label":"Background","default":"#05070d"},
+  {"id":"c_panel","type":"color","label":"Panel","default":"#0d1117"},
+  {"id":"c_text","type":"color","label":"Text","default":"#f5f7fa"},
+  {"id":"c_muted","type":"color","label":"Muted","default":"#9aa4b2"}]'>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="../themes/base.css" />
+  <style>
+    .lt { position: absolute; left: 96px; bottom: 120px; display: flex; align-items: stretch; overflow: hidden; }
+    .bar { width: var(--bar-width); }
+    .body { padding: 22px 44px 24px 30px; display: flex; flex-direction: column; gap: 6px; }
+    .title { font-size: calc(50px * var(--display-scale)); white-space: nowrap; }
+    .subtitle { font-size: 28px; font-weight: 500; line-height: 1.2; white-space: nowrap; }
+  </style>
+  <!--THEME-->
+  <script src="../vendor/gsap.min.js"></script>
+  <script src="../themes/fx.js"></script>
+</head>
+<body>
+  <div id="root" data-composition-id="lower-third" data-start="0" data-duration="4" data-fill-duration
+       data-width="1920" data-height="1080">
+    <div id="lt-clip" class="clip" data-start="0" data-duration="4" data-fill-duration data-track-index="0">
+      <div id="lt" class="lt hf-panel">
+        <div id="bar" class="bar hf-bar"></div>
+        <div class="body">
+          <div id="title" class="title hf-display">Your Name</div>
+          <div id="subtitle" class="subtitle hf-body hf-muted">Editing videos with Claude Code</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const { v, dur, M } = HF.setup();
+      HF.text("title", v.title);
+      const hasSub = HF.text("subtitle", v.subtitle);
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#lt", { x: -M.enter, opacity: 0 }, { x: 0, opacity: 1, duration: M.dur, ease: M.ease }, 0.05);
+      tl.fromTo("#bar", { scaleY: 0 }, { scaleY: 1, duration: M.dur * 0.9, ease: M.ease, transformOrigin: "50% 100%" }, 0.15);
+      tl.fromTo("#title", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: M.dur * 0.9, ease: M.ease }, 0.25);
+      if (hasSub) tl.fromTo("#subtitle", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: M.dur * 0.9, ease: M.ease }, 0.35);
+      tl.to("#lt", { x: -M.enter, opacity: 0, duration: 0.4, ease: M.easeIn }, Math.max(dur - 0.45, 1));
+      window.__timelines["lower-third"] = tl;
+    })();
+  </script>
+</body>
+</html>
